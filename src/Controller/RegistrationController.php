@@ -2,16 +2,16 @@
 
 namespace App\Controller;
 
-use Symfony\Component\Security\Http\Authentication\UserAuthenticatorInterface;
-use App\Security\LoginFormAuthenticator;
 use App\Entity\Utilisateur;
-use App\form\RegistrationFormType;
+use App\Form\RegistrationFormType;
+use App\Security\LoginFormAuthenticator;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Security\Http\Authentication\UserAuthenticatorInterface;
 
 class RegistrationController extends AbstractController
 {

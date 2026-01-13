@@ -1,0 +1,40 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello SortieController!{% endblock %}
+
+{% block body %}
+<style>
+    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
+    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
+</style>
+
+<div class="example-wrapper">
+    <h1>Hello {{ controller_name }}! ✅</h1>
+    <h1>sorties</h1>
+
+     <h1>Créer une sortie</h1>
+
+        {# Affiche les messages flash #}
+        {% for label, messages in app.flashes %}
+            {% for message in messages %}
+                <div class="alert alert-{{ label }}">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endfor %}
+
+        {{ form_start(form) }}
+            {{ form_row(form.nom) }}
+            {{ form_row(form.description) }}
+            {{ form_row(form.dateHeure) }}
+            {{ form_row(form.lieu) }}
+            {{ form_row(form.utilisateur) }}
+
+            <button class="btn btn-primary">Créer la sortie</button>
+        {{ form_end(form) }}
+
+
+
+
+</div>
+{% endblock %}

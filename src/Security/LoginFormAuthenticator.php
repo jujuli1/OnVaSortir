@@ -22,6 +22,7 @@ class LoginFormAuthenticator extends AbstractLoginFormAuthenticator
 
     public const LOGIN_ROUTE = 'app_login';
 
+
     public function __construct(private UrlGeneratorInterface $urlGenerator)
     {
     }
@@ -49,8 +50,7 @@ class LoginFormAuthenticator extends AbstractLoginFormAuthenticator
             return new RedirectResponse($targetPath);
         }
 
-        // For example:
-        // return new RedirectResponse($this->urlGenerator->generate('some_route'));
+
         return new RedirectResponse($this->urlGenerator->generate('app_profil'));
     }
 
