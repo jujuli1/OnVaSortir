@@ -20,5 +20,29 @@
 
 
 
+    {% for inscription in inscriptions %}
+        <div class="inscription">
+            <a href="{{ path('app_details', { id: inscription.sortie.id }) }}">
+                        <p>Sortie : {{ inscription.sortie.nom }}</p>
+                    </a>
+            <p>Date : {{ inscription.sortie.dateHeure|date('d/m/Y H:i') }}</p>
+
+            <form method="post" action="{{ path('app_sortie_desistement', {'id': inscription.sortie.id}) }}">
+                <button class="btn btn-danger">Se désinscrire</button>
+            </form>
+        </div>
+    {% else %}
+        <a href="{{ path('app_sortie_vitrine') }}">Inscrivez vous a une sortie</a>
+    {% endfor %}
+
+
+
+
+
+
+
+
+
+
 </div>
 {% endblock %}

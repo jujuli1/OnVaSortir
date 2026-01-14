@@ -17,9 +17,11 @@ final class SortieController extends AbstractController
     public function index(Request $request,EntityManagerInterface $em,): Response
     {
         $sortie = new Sortie();
+        //recup user connecté
         $user = $this->getUser();
         $sortie->setOrganisateur($user->getNom());
 
+        //fausse sortie de test
         $fakeSortie = (object) [
             'id' => 1,
             'nom' => 'Sortie test',
@@ -46,11 +48,24 @@ final class SortieController extends AbstractController
     public function vitrine(Request $request,EntityManagerInterface $em,): Response
     {
 
+        //affiche les sortie en bdd sur la page /vitrine
         $sorties = $em->getRepository(Sortie::class)->findAll();
+
+        $user = $this->getUser();
+        $inscriptions = [];
+
+        foreach ($sorties as $sortie) {
+            $inscription = $em->getRepository(Inscription::class)->findOneBy(
+                ['utilisateur' => $user,
+                    'sortie' => $sortie
+            ]);
+            $inscriptions[$sortie->getId()] = $inscription;
+        }
 
 
         return $this->render('sortie/vitrine.html.twig',[
             'sorties' => $sorties,
+            'inscriptions' => $inscriptions,
         ]);
     }
 
@@ -58,6 +73,7 @@ final class SortieController extends AbstractController
     public function inscription(int $id, Request $request,EntityManagerInterface $em,): Response
     {
 
+        // s'inscrire a une sortie
         $inscription = new Inscription();
         $user = $this->getUser();
         $sortie = $em->getRepository(Sortie::class)->find($id);
@@ -69,10 +85,14 @@ final class SortieController extends AbstractController
         $em->flush();
 
         $this->addFlash('success', 'Vous etes inscrit ! !');
-        return $this->render('profil/index.html.twig',[
+        return $this->render('sortie/vitrine.html.twig',[
+            'sorties' => $sortie,
+
 
         ]);
     }
+
+
 
 
 }

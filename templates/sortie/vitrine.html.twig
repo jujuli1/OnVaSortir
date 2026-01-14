@@ -16,7 +16,8 @@
 
      {%for sortie in sorties%}
      <div class="sortie">
-             <h2>{{ sortie.nom }}</h2>
+             <a href="{{ path('app_details', { id: sortie.id }) }}">
+                 <h2>{{ sortie.nom }}</h2></a>
              <p>{{ sortie.description }}</p>
              <p>Date : {{ sortie.dateHeure|date('d/m/Y H:i') }}</p>
              <p> Organisateur: {{ sortie.organisateur }}</p>
@@ -26,6 +27,8 @@
                          Participer
                      </button>
                  </form>
+
+
 
 
          </div>
