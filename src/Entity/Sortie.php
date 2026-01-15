@@ -58,7 +58,7 @@ class Sortie
     private Collection $inscriptions;
 
     #[ORM\Column]
-    private ?bool $status = null;
+    private ?bool $status = True;
 
     public function __construct()
     {

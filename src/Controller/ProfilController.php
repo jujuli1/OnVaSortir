@@ -66,21 +66,5 @@ final class ProfilController extends AbstractController
         ]);
     }
 
-    #[Route('/details/{id}', name: 'app_details')]
-    public function details(EntityManagerInterface $em, int $id): Response
-    {
 
-
-        $user = $this->getUser();
-        $inscriptions= $em->getRepository(Inscription::class)->findOneBy([
-            'utilisateur' => $user,
-            'sortie' => $id,]);
-
-        $sorties = $em->getRepository(Sortie::class)->find($id);
-        return $this->render('details/index.html.twig', [
-            'sorties' => $sorties,
-            'inscriptions' => $inscriptions,
-
-        ]);
-    }
 }

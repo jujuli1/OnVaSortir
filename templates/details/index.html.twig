@@ -3,23 +3,26 @@
 {% block title %}Hello DetailsController!{% endblock %}
 
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
+
+
+<p>Debug du template</p>
 
 <div class="example-wrapper">
+    <h1>Détails de la sortie</h1>
 
-    <h1>Details d'une sortie</h1>
+
+    {{ dump() }}
 
 
-    {% if inscriptions %}
-        <h2>{{ inscriptions.sortie.nom }}</h2>
-        <h2>{{ inscriptions.sortie.description }}</h2>
 
-    {% else %}
-        <p>Vous n’êtes plus inscrit a cette sortie</p>
+    <p>Sortie : {{ sorties.nom }}</p>
+
+
+    {% if showForm %}
+    <p> c'est toi l'organisateur </p>
+
     {% endif %}
+
 
 
 
@@ -30,3 +33,5 @@
 
 </div>
 {% endblock %}
+
+

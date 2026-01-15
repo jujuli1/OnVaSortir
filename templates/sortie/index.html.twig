@@ -14,14 +14,7 @@
 
      <h1>Créer une sortie</h1>
 
-        {# Affiche les messages flash #}
-        {% for label, messages in app.flashes %}
-            {% for message in messages %}
-                <div class="alert alert-{{ label }}">
-                    {{ message }}
-                </div>
-            {% endfor %}
-        {% endfor %}
+
 
         {{ form_start(form) }}
             {{ form_row(form.nom) }}
@@ -29,6 +22,7 @@
             {{ form_row(form.dateHeure) }}
             {{ form_row(form.lieu) }}
             {{ form_row(form.utilisateur) }}
+            {{ form_row(form.status) }}
 
             <button class="btn btn-primary">Créer la sortie</button>
         {{ form_end(form) }}

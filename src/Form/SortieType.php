@@ -6,6 +6,7 @@ use App\Entity\Sortie;
 use App\Entity\Utilisateur;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -22,6 +23,15 @@ class SortieType extends AbstractType
                 'class' => Utilisateur::class,
                 'choice_label' => 'id',
             ])
+            ->add('status', ChoiceType::class, [
+                'label' => 'Statut de la sortie',
+                'choices'  => [
+                    'Ouvert' => True,
+                    'Fermé'  => False,
+                ],
+                'expanded' => false,   // menu déroulant
+                'multiple' => false,   // choix unique
+            ]);
         ;
     }
 
