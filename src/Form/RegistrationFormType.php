@@ -6,6 +6,7 @@ use App\Entity\Campus;
 use App\Entity\Utilisateur;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\BirthdayType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
@@ -29,7 +30,11 @@ class RegistrationFormType extends AbstractType
             ->add('campus', EntityType::class, [ //relation campus
                 'class' => Campus::class,
                 'choice_label' => 'nom', // nom du campus
-            ]);
+            ])
+            ->add('birthday', BirthdayType::class, [
+            'required' => false,
+            'widget' => 'single_text', // pour un champ date simple
+    ]);
     }
 
     public function configureOptions(OptionsResolver $resolver): void

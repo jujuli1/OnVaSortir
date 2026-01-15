@@ -21,6 +21,12 @@ class Inscription
     #[ORM\JoinColumn(nullable: false)]
     private ?Sortie $sortie = null;
 
+    #[ORM\Column]
+    private ?\DateTime $date_inscription = null;
+
+    #[ORM\Column]
+    private ?bool $status_inscription = True;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -46,6 +52,30 @@ class Inscription
     public function setSortie(?Sortie $sortie): static
     {
         $this->sortie = $sortie;
+
+        return $this;
+    }
+
+    public function getDateInscription(): ?\DateTime
+    {
+        return $this->date_inscription;
+    }
+
+    public function setDateInscription(\DateTime $date_inscription): static
+    {
+        $this->date_inscription = $date_inscription;
+
+        return $this;
+    }
+
+    public function isStatusInscription(): ?bool
+    {
+        return $this->status_inscription;
+    }
+
+    public function setStatusInscription(bool $status_inscription): static
+    {
+        $this->status_inscription = $status_inscription;
 
         return $this;
     }

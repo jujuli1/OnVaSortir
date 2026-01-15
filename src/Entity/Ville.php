@@ -24,6 +24,9 @@ class Ville
     #[ORM\OneToMany(targetEntity: Campus::class, mappedBy: 'ville')]
     private Collection $campuses;
 
+    #[ORM\Column(length: 5)]
+    private ?string $CP = null;
+
     public function __construct()
     {
         $this->campuses = new ArrayCollection();
@@ -72,6 +75,18 @@ class Ville
                 $campus->setVille(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getCP(): ?string
+    {
+        return $this->CP;
+    }
+
+    public function setCP(string $CP): static
+    {
+        $this->CP = $CP;
 
         return $this;
     }
