@@ -38,7 +38,9 @@
 
 
 
-
+    {% if app.user.photo %}
+        <img src="{{ asset('uploads/photos/' ~ app.user.photo) }}" width="150">
+    {% endif %}
 
 
 
