@@ -20,6 +20,22 @@
 
     {% if showForm %}
     <p> c'est toi l'organisateur </p>
+    {{ form_start(form) }}
+                {{ form_row(form.nom) }}
+                {{ form_row(form.description) }}
+                {{ form_row(form.dateHeure) }}
+                {{ form_row(form.lieu) }}
+
+                {{ form_row(form.status) }}
+
+                <button class="btn btn-primary">Appliquer les changements</button>
+            {{ form_end(form) }}
+
+            {{ form_start(formSupp) }}
+
+
+                            <button class="btn btn-primary">Supprimer</button>
+                        {{ form_end(formSupp) }}
 
     {% endif %}
 

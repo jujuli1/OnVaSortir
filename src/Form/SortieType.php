@@ -19,17 +19,14 @@ class SortieType extends AbstractType
             ->add('description')
             ->add('dateHeure')
             ->add('lieu')
-            ->add('utilisateur', EntityType::class, [
-                'class' => Utilisateur::class,
-                'choice_label' => 'id',
-            ])
+
             ->add('status', ChoiceType::class, [
                 'label' => 'Statut de la sortie',
                 'choices'  => [
                     'Ouvert' => True,
                     'Fermé'  => False,
                 ],
-                'expanded' => false,   // menu déroulant
+                'expanded' => false,
                 'multiple' => false,   // choix unique
             ]);
         ;

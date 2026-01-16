@@ -27,13 +27,16 @@ final class SortieController extends AbstractController
             'nom' => 'Sortie test',
         ];
 
+        //formulaire de création d'une sortie
         $form = $this->createForm(SortieType::class, $sortie);
         $form->handleRequest($request);
 
         if($form->isSubmitted() && $form->isValid()){
+            //id utilisateur connecté remplit automatiquement le champ utilisateur_id de la table sortie
             $sortie->setUtilisateur($this->getUser());
             $em->persist($sortie);
             $em->flush();
+            return $this->redirectToRoute('app_sortie_vitrine');
         }
 
 
@@ -54,6 +57,7 @@ final class SortieController extends AbstractController
         $user = $this->getUser();
         $inscriptions = [];
 
+        //boucle d'affichage
         foreach ($sorties as $sortie) {
             $inscription = $em->getRepository(Inscription::class)->findOneBy(
                 ['utilisateur' => $user,

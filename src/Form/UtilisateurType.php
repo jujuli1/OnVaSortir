@@ -19,7 +19,7 @@ class UtilisateurType extends AbstractType
 
             ->add('photo', FileType::class, [
                 'label' => 'Photo de profil',
-                'mapped' => false, // obligatoire en false , ne correspond pas pas directement au champ bdd
+                'mapped' => false, // obligatoire en false , ne correspond pas pas directement au champ bdd, n'apelle aucun setter
                 'required' => false,
                 'constraints' => [
                     new File(

@@ -12,6 +12,7 @@ use Symfony\Component\Routing\Attribute\Route;
 
 final class ProfilController extends AbstractController
 {
+    //Route profil
     #[Route('/profil', name: 'app_profil')]
     public function index(EntityManagerInterface $em,): Response
     {
