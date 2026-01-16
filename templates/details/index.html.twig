@@ -32,10 +32,18 @@
             {{ form_end(form) }}
 
             {{ form_start(formSupp) }}
+                <button class="btn btn-primary">Supprimer</button>
+            {{ form_end(formSupp) }}
 
 
-                            <button class="btn btn-primary">Supprimer</button>
-                        {{ form_end(formSupp) }}
+            {{ form_start(formUpdate) }}
+            {{ form_row(formUpdate.status)}}
+                <button class="btn btn-primary">Valider</button>
+            {{ form_end(formUpdate) }}
+
+
+
+
 
     {% endif %}
 

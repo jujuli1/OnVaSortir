@@ -54,6 +54,9 @@ final class SortieController extends AbstractController
         //affiche les sortie en bdd sur la page /vitrine
         $sorties = $em->getRepository(Sortie::class)->findAll();
 
+
+
+
         $user = $this->getUser();
         $inscriptions = [];
 
@@ -70,6 +73,7 @@ final class SortieController extends AbstractController
         return $this->render('sortie/vitrine.html.twig',[
             'sorties' => $sorties,
             'inscriptions' => $inscriptions,
+
         ]);
     }
 
@@ -81,15 +85,26 @@ final class SortieController extends AbstractController
         $inscription = new Inscription();
         $user = $this->getUser();
         $sortie = $em->getRepository(Sortie::class)->find($id);
+        $inscriptionExist= $em->getRepository(Inscription::class)->findOneBy([
+            'utilisateur' => $user,
+            'sortie' => $id,]);
 
-        $inscription->setSortie($sortie);
-        $inscription->setUtilisateur($user);
+        if(!$inscriptionExist){
+            $inscription->setSortie($sortie);
+            $inscription->setUtilisateur($user);
 
-        $inscription->setDateInscription(new \DateTime());
-        $inscription->setStatusInscription(True);
+            $inscription->setDateInscription(new \DateTime());
+            $inscription->setStatusInscription(True);
 
-        $em->persist($inscription);
-        $em->flush();
+            $em->persist($inscription);
+            $em->flush();
+
+            $this->addFlash('success', 'Vous êtes bien inscrit à cette sortie !');
+        } else {
+            $this->addFlash('warning', 'Vous êtes déjà inscrit à cette sortie.');
+        }
+
+
 
         $this->addFlash('success', 'Vous etes inscrit ! !');
         return $this->render('sortie/vitrine.html.twig',[

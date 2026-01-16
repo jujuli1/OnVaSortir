@@ -6,6 +6,7 @@ use App\Entity\Inscription;
 use App\Entity\Sortie;
 use App\Form\DeleteSortieType;
 use App\Form\SortieType;
+use App\Form\UpdateSortieType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -42,7 +43,11 @@ final class DetailsController extends AbstractController
         $formSupp = $this->createForm(DeleteSortieType::class, $sorties);
         $formSupp->handleRequest($request);
 
-        if($formSupp->isSubmitted()){
+        //formulaire de changement de statuts
+        $formUpdate = $this->createForm(UpdateSortieType::class, $sorties);
+        $formUpdate->handleRequest($request);
+
+        if($formSupp->isSubmitted() && $formSupp->isValid()){
 
             //securité
             if ($this->getUser() !== $sorties->getUtilisateur()) {
@@ -52,6 +57,21 @@ final class DetailsController extends AbstractController
             }
 
             $em->remove($sorties);
+            $em->flush();
+            return $this->redirectToRoute('app_sortie_vitrine');
+
+        }
+
+        if($formUpdate->isSubmitted() && $formUpdate->isValid()){
+
+            //securité
+            if ($this->getUser() !== $sorties->getUtilisateur()) {
+                throw $this->createAccessDeniedException(
+                    'Vous n etes pas l organisateur '
+                );
+            }
+
+
             $em->flush();
             return $this->redirectToRoute('app_sortie_vitrine');
 
@@ -73,6 +93,7 @@ final class DetailsController extends AbstractController
             'showForm' => $showForm,
             'form' => $form->createView(),
             'formSupp' => $formSupp->createView(),
+            'formUpdate' => $formUpdate->createView(),
 
 
         ]);

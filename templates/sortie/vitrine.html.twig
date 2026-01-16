@@ -14,6 +14,14 @@
 
      <h1>Vitrine</h1>
 
+     {% for label, messages in app.flashes %}
+         {% for message in messages %}
+             <div class="alert alert-{{ label }}">
+                 {{ message }}
+             </div>
+         {% endfor %}
+     {% endfor %}
+
      {%for sortie in sorties%}
      <div class="sortie">
              <a href="{{ path('app_details', { id: sortie.id }) }}">
@@ -21,6 +29,11 @@
              <p>{{ sortie.description }}</p>
              <p>Date : {{ sortie.dateHeure|date('d/m/Y H:i') }}</p>
              <p> Organisateur: {{ sortie.organisateur }}</p>
+             <p> Status : {% if sortie.status == 1 %}
+                                  Ouverte
+                              {% else %}
+                                  Fermée
+                              {% endif %}</p>
 
               <form method="post" action="{{ path('app_sortie_inscription', {id: sortie.id}) }}">
                      <button class="btn btn-success">
