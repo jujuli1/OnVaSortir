@@ -1,0 +1,28 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello AdminController!{% endblock %}
+
+{% block body %}
+<style>
+    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
+    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
+</style>
+
+<div class="example-wrapper">
+    <h1>Hello Admin</h1>
+
+    {{ form_start(registrationAdminForm) }}
+        {{ form_row(registrationAdminForm.nom) }}
+        {{ form_row(registrationAdminForm.prenom) }}
+        {{ form_row(registrationAdminForm.email) }}
+        {{ form_row(registrationAdminForm.motDePasse.first) }}
+        {{ form_row(registrationAdminForm.motDePasse.second) }}
+
+
+
+        <button class="btn">Inscription Administrateur</button>
+    {{ form_end(registrationAdminForm) }}
+
+
+</div>
+{% endblock %}

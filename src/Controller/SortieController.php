@@ -85,6 +85,7 @@ final class SortieController extends AbstractController
         $inscription = new Inscription();
         $user = $this->getUser();
         $sortie = $em->getRepository(Sortie::class)->find($id);
+        //recup id user connecté + id sortie
         $inscriptionExist= $em->getRepository(Inscription::class)->findOneBy([
             'utilisateur' => $user,
             'sortie' => $id,]);
@@ -99,7 +100,7 @@ final class SortieController extends AbstractController
             $em->persist($inscription);
             $em->flush();
 
-            $this->addFlash('success', 'Vous êtes bien inscrit à cette sortie !');
+            $this->addFlash('success', 'Inscription confirmé !');
         } else {
             $this->addFlash('warning', 'Vous êtes déjà inscrit à cette sortie.');
         }

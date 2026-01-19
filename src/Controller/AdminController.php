@@ -1,0 +1,68 @@
+<?php
+
+namespace App\Controller;
+
+use App\Entity\Utilisateur;
+use App\Form\RegisterAdminType;
+use App\Form\UtilisateurType;
+use App\Repository\CampusRepository;
+use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
+use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
+
+#[Route('/admin')]
+final class AdminController extends AbstractController
+{
+
+    #[Route('/profil', name: 'app_admin_profil')]
+    public function admonProfil(EntityManagerInterface $entityManager): Response
+    {
+        return $this->render('admin/admin_profil.html.twig');
+    }
+
+    #[Route('/registerAdmin', name: 'app_admin_register')]
+    public function index(Request $request,
+                          UserPasswordHasherInterface $passwordHasher,
+                          EntityManagerInterface $entityManager,
+                          CampusRepository $campusRepository): Response
+    {
+
+        $user = new Utilisateur();
+        $registrationAdminForm = $this->createForm(RegisterAdminType::class, $user);
+        $registrationAdminForm->handleRequest($request);  // //!\\
+
+        // campus par défault
+        $campus = $campusRepository->find(1);
+        $user->setCampus($campus);
+
+        if($registrationAdminForm->isSubmitted() && $registrationAdminForm->isValid()) {
+
+            // Hash pass
+            $hashedPassword = $passwordHasher->hashPassword(
+                $user,
+                $registrationAdminForm->get('motDePasse')->getData()
+            );
+            $user->setPassword($hashedPassword);
+
+            // donne le rôle admin
+            $user->setRoles(['ROLE_ADMIN']);
+
+            // enregistrer le user
+            $entityManager->persist($user);
+            $entityManager->flush();
+
+        }
+
+        return $this->render('admin/indexAdminRegister.html.twig', [
+            'registrationAdminForm' => $registrationAdminForm->createView(),
+        ]);
+    }
+
+
+
+
+}

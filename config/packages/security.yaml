@@ -15,6 +15,16 @@ security:
             # Ensure dev tools and static assets are always allowed
             pattern: ^/(_profiler|_wdt|assets|build)/
             security: false
+
+        admin:
+            pattern: ^/admin
+            lazy: true
+            provider: app_user_provider
+            custom_authenticators:
+                - App\Security\AdminLoginFormAuthenticator
+            logout:
+                path: app_admin_logout
+
         main:
             lazy: true
             provider: app_user_provider
@@ -38,7 +48,7 @@ security:
 
     # Note: Only the *first* matching rule is applied
     access_control:
-         - { path: ^/admin, roles: ROLE_ADMIN }
+         - { path: ^/admin/profil, roles: ROLE_ADMIN }
          - { path: ^/profil, roles: ROLE_USER }
          - { path: ^/sortie, roles: ROLE_USER }
 
