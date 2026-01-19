@@ -12,6 +12,25 @@
     <h1>Hello Admin profil</h1>
 
 
+    <select id="listeUser" class="d-none">
+        <option value="">Liste des utilisateurs</option>
+
+        {% for utilisateurs in utilisateur %}
+                <option value="{{ path('app_profil_user', { id: utilisateurs.id }) }}">
+                    {{ utilisateurs.nom }}
+                </option>
+            {% endfor %}
+
+            <script>
+            document.getElementById('listeUser').addEventListener('change', function() {
+                if (this.value) {
+                    window.location.href = this.value; // redirige vers le profil utilisateur
+                }
+            });
+            </script>
+    </select>
+
+
 
 
 </div>

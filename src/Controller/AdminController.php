@@ -2,6 +2,8 @@
 
 namespace App\Controller;
 
+use App\Entity\Inscription;
+use App\Entity\Sortie;
 use App\Entity\Utilisateur;
 use App\Form\RegisterAdminType;
 use App\Form\UtilisateurType;
@@ -19,9 +21,31 @@ final class AdminController extends AbstractController
 {
 
     #[Route('/profil', name: 'app_admin_profil')]
-    public function admonProfil(EntityManagerInterface $entityManager): Response
+    public function adminProfil(EntityManagerInterface $em): Response
     {
-        return $this->render('admin/admin_profil.html.twig');
+        //affiche les sortie et users en bdd sur la page /vitrine
+        $sorties = $em->getRepository(Sortie::class)->findAll();
+        $utilisateur = $em->getRepository(Utilisateur::class)->findAll();
+
+        return $this->render('admin/admin_profil.html.twig',[
+            'sorties' => $sorties,
+            'utilisateur' => $utilisateur,
+        ]);
+    }
+
+    // route vers le profil utilisateur depuis le compte admin
+    #[Route('/profil/user/{id}', name: 'app_profil_user')]
+    public function profilUser( Utilisateur $user): Response
+    {
+
+
+
+
+
+        return $this->render('profil/profil_user.html.twig', [
+            'utilisateurs' => $user,
+
+        ]);
     }
 
     #[Route('/registerAdmin', name: 'app_admin_register')]
