@@ -13,7 +13,7 @@
     <h1>Mon compte</h1>
 
     <a href="{{ path('app_sortie') }}">créer une sortie</a>
-    <a href="{{ path('app_sortie_vitrine') }}">Toute les sorties</a>
+
     <a href="{{ path('app_gestion_profil') }}">Paramètres</a>
     <a href="{{ path('app_admin_login') }}">Vous etes Admin ?</a>
 
@@ -34,7 +34,7 @@
             </form>
         </div>
     {% else %}
-        <a href="{{ path('app_sortie_vitrine') }}">Inscrivez vous a une sortie</a>
+        <a href="{{ path('app_sortie_vitrine') }}">Acceuil</a>
     {% endfor %}
 
 

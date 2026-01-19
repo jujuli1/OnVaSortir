@@ -34,12 +34,16 @@
                               {% else %}
                                   Fermée
                               {% endif %}</p>
-
-              <form method="post" action="{{ path('app_sortie_inscription', {id: sortie.id}) }}">
+             {% if not inscrit %}
+                 <form method="post" action="{{ path('app_sortie_inscription', { id: sortie.id }) }}">
                      <button class="btn btn-success">
                          Participer
                      </button>
                  </form>
+             {% else %}
+                 <p class="text-success">Déja inscrit</p>
+             {% endif %}
+
 
 
 

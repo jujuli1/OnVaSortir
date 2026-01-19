@@ -48,11 +48,13 @@ final class SortieController extends AbstractController
     }
 
     #[Route('/sortie/vitrine', name: 'app_sortie_vitrine')]
-    public function vitrine(Request $request,EntityManagerInterface $em,): Response
+    public function vitrine(Request $request,EntityManagerInterface $em): Response
     {
 
         //affiche les sortie en bdd sur la page /vitrine
         $sorties = $em->getRepository(Sortie::class)->findAll();
+
+
 
 
 
@@ -69,10 +71,18 @@ final class SortieController extends AbstractController
             $inscriptions[$sortie->getId()] = $inscription;
         }
 
+        $inscrit = $em->getRepository(Inscription::class)->findOneBy(
+            ['utilisateur' => $user,
+                'sortie' => $sorties
+            ]);
+
+
+
 
         return $this->render('sortie/vitrine.html.twig',[
             'sorties' => $sorties,
             'inscriptions' => $inscriptions,
+            'inscrit' => $inscrit,
 
         ]);
     }

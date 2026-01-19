@@ -16,7 +16,7 @@
        <h1>Profil de {{ utilisateurs.nom }} {{ utilisateurs.prenom }}</h1>
        <p>Email : {{ utilisateurs.email }}</p>
        <p>Campus : {{ utilisateurs.campus.nom }}</p>
-       <p>{{ utilisateurs.photo }}</p>
+         <img src="{{ asset('uploads/photos/' ~ utilisateurs.photo) }}" alt="" width="150">
 
 
 
