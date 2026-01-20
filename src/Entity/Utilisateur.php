@@ -53,6 +53,9 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $photo = null;
 
+    #[ORM\OneToMany(mappedBy: 'utilisateur', targetEntity: Inscription::class, orphanRemoval: true)]
+    private Collection $inscriptions;
+
     public function __construct()
     {
         $this->inscription = new ArrayCollection();

@@ -7,6 +7,7 @@ use App\Entity\Sortie;
 use App\Entity\Utilisateur;
 use App\Form\RegisterAdminType;
 use App\Form\RegistrationFormType;
+use App\Form\RegistrationUserAdminType;
 use App\Form\UtilisateurType;
 use App\Repository\CampusRepository;
 use App\Security\LoginFormAuthenticator;
@@ -99,16 +100,29 @@ final class AdminController extends AbstractController
     ): Response
     {
         $user = new Utilisateur();
-        $form = $this->createForm(RegistrationFormType::class, $user);
+        $form = $this->createForm(RegistrationUserAdminType::class, $user);
         $form->handleRequest($request);
 
+        $user->setRoles(['ROLE_USER']);
+
         if ($form->isSubmitted() && $form->isValid()) {
+
+            // Récupère UNIQUEMENT ce que le formulaire a envoyé
+            $rolesForm = $form->get('roles')->getData(); // ['ROLE_ADMIN'] ou []
+
+            // Ajoute ROLE_USER
+            $roles = $rolesForm;
+            $roles[] = 'ROLE_USER';
+
+            $user->setRoles(array_unique($roles));
             // Hash pass
             $hashedPassword = $passwordHasher->hashPassword(
                 $user,
                 $form->get('motDePasse')->getData()
             );
             $user->setPassword($hashedPassword);
+
+
 
             // enregistrer le user
             $entityManager->persist($user);
