@@ -57,7 +57,7 @@ final class SortieController extends AbstractController
 
 
 
-
+        
 
         $user = $this->getUser();
         $inscriptions = [];
