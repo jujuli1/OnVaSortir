@@ -67,6 +67,42 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(mappedBy: 'utilisateur', targetEntity: Inscription::class, orphanRemoval: true)]
     private Collection $inscriptions;
 
+    #[ORM\Column(type: "string",length: 64, nullable: true)]
+    private ?string $resetToken = null;
+
+    #[ORM\Column(type: "datetime", nullable: true)]
+    private ?\DateTime $resetTokenExpiresAt = null;
+
+    public function getInscriptions(): Collection
+    {
+        return $this->inscriptions;
+    }
+
+    public function setInscriptions(Collection $inscriptions): void
+    {
+        $this->inscriptions = $inscriptions;
+    }
+
+    public function getResetToken(): ?string
+    {
+        return $this->resetToken;
+    }
+
+    public function setResetToken(?string $resetToken): void
+    {
+        $this->resetToken = $resetToken;
+    }
+
+    public function getResetTokenExpiresAt(): ?\DateTimeInterface
+    {
+        return $this->resetTokenExpiresAt;
+    }
+
+    public function setResetTokenExpiresAt(?\DateTimeInterface $resetTokenExpiresAt): void
+    {
+        $this->resetTokenExpiresAt = $resetTokenExpiresAt;
+    }
+
     public function __construct()
     {
         $this->inscription = new ArrayCollection();
