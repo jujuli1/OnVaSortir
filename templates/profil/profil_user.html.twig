@@ -18,6 +18,11 @@
        <p>Campus : {{ utilisateurs.campus.nom }}</p>
          <img src="{{ asset('uploads/photos/' ~ utilisateurs.photo) }}" alt="" width="150">
 
+         {{ form_start(SuppUserAdminForm) }}
+
+      {{ form_widget(SuppUserAdminForm) }}
+         {{ form_end(SuppUserAdminForm) }}
+
 
 
 

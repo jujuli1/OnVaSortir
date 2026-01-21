@@ -20,15 +20,26 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank(message: 'Vous devez saisir un nom')] //contrainte
+    #[Assert\length(min: 2, max: 30)]
     private ?string $nom = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\Length(min: 2, max: 30)]
     private ?string $prenom = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank(message: "Vous devez saisir un mail")]
+    #[Assert\Email(message: "L'email n'est pas valide")]
     private ?string $email = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(type: "string",length: 255)]
+    #[Assert\NotBlank(message: "Veuillez saisir un  mot de passe")]
+    #[Assert\Length(min: 8, max: 50)]
+    #[Assert\Regex(
+        pattern: "/^(?=.*[A-Z])(?=.*[a-z])(?=.*\d).+$/",
+        message: "Le mot de passe doit contenir au moin une majuscule, une minuscule et un chiffre"
+    )]
     private ?string $motDePasse = null;
 
     #[ORM\Column]

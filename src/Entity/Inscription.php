@@ -14,11 +14,11 @@ class Inscription
     private ?int $id = null;
 
     #[ORM\ManyToOne(inversedBy: 'inscription')]
-    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\JoinColumn(nullable: false, onDelete: 'CASCADE')]  // <-----
     private ?Utilisateur $utilisateur = null;
 
     #[ORM\ManyToOne(inversedBy: 'inscriptions')]
-    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\JoinColumn(nullable: false, onDelete: 'CASCADE')]
     private ?Sortie $sortie = null;
 
     #[ORM\Column]
@@ -26,6 +26,8 @@ class Inscription
 
     #[ORM\Column]
     private ?bool $status_inscription = True;
+
+
 
     public function getId(): ?int
     {

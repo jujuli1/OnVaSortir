@@ -48,6 +48,8 @@ class RegistrationController extends AbstractController
                 $authenticator,
                 $request
             );
+            //redirection login
+            //return $this->redirectToRoute('app_login');
 
         }
 

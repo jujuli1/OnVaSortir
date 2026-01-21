@@ -48,16 +48,12 @@ final class SortieController extends AbstractController
     }
 
     #[Route('/sortie/vitrine', name: 'app_sortie_vitrine')]
-    public function vitrine(Request $request,EntityManagerInterface $em): Response
+    public function vitrine(EntityManagerInterface $em): Response
     {
 
         //affiche les sortie en bdd sur la page /vitrine
         $sorties = $em->getRepository(Sortie::class)->findAll();
 
-
-
-
-        
 
         $user = $this->getUser();
         $inscriptions = [];
@@ -67,7 +63,7 @@ final class SortieController extends AbstractController
             $inscription = $em->getRepository(Inscription::class)->findOneBy(
                 ['utilisateur' => $user,
                     'sortie' => $sortie
-            ]);
+                ]);
             $inscriptions[$sortie->getId()] = $inscription;
         }
 
@@ -84,11 +80,13 @@ final class SortieController extends AbstractController
             'inscriptions' => $inscriptions,
             'inscrit' => $inscrit,
 
+
+
         ]);
     }
 
     #[Route('/sortie/inscription/{id}', name: 'app_sortie_inscription')]
-    public function inscription(int $id, Request $request,EntityManagerInterface $em,): Response
+    public function inscription(int $id,EntityManagerInterface $em,): Response
     {
 
         // s'inscrire a une sortie

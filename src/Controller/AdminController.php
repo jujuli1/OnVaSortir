@@ -8,6 +8,7 @@ use App\Entity\Utilisateur;
 use App\Form\RegisterAdminType;
 use App\Form\RegistrationFormType;
 use App\Form\RegistrationUserAdminType;
+use App\Form\SuppUserFormType;
 use App\Form\UtilisateurType;
 use App\Repository\CampusRepository;
 use App\Security\LoginFormAuthenticator;
@@ -39,15 +40,33 @@ final class AdminController extends AbstractController
 
     // route vers le profil utilisateur depuis le compte admin
     #[Route('/profil/user/{id}', name: 'app_profil_user')]
-    public function profilUser( Utilisateur $user): Response
+    public function profilUser( Utilisateur $user, Request $request, EntityManagerInterface $entityManager, int $id): Response
     {
 
+        //formulaire suppression utilisateur
+        $SuppUserAdminForm = $this->createForm(SuppUserFormType::class, $user);
+        $SuppUserAdminForm->handleRequest($request);  // //!\\
+
+        if($SuppUserAdminForm->isSubmitted() ) {
+
+
+            // enregistrer le user
+            $entityManager->remove($user);
+            $entityManager->flush();
+
+            $this->addFlash('success', 'Utilisateur supprimé');
+
+            return $this->redirectToRoute('app_admin_profil');
+
+
+        }
 
 
 
 
         return $this->render('profil/profil_user.html.twig', [
             'utilisateurs' => $user,
+            'SuppUserAdminForm' => $SuppUserAdminForm->createView(),
 
         ]);
     }
@@ -60,8 +79,11 @@ final class AdminController extends AbstractController
     {
 
         $user = new Utilisateur();
+        //formulaire d'inscription nouvel utilisateur
         $registrationAdminForm = $this->createForm(RegisterAdminType::class, $user);
         $registrationAdminForm->handleRequest($request);  // //!\\
+
+
 
         // campus par défault
         $campus = $campusRepository->find(1);
@@ -85,8 +107,11 @@ final class AdminController extends AbstractController
 
         }
 
+
+
         return $this->render('admin/indexAdminRegister.html.twig', [
             'registrationAdminForm' => $registrationAdminForm->createView(),
+
         ]);
     }
 

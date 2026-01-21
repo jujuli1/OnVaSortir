@@ -35,6 +35,7 @@ class Sortie
     #[ORM\Column(type: "string", length: 255)]
     private $organisateur;
 
+
     /**
      * @return mixed
      */
@@ -54,7 +55,7 @@ class Sortie
     /**
      * @var Collection<int, Inscription>
      */
-    #[ORM\OneToMany(targetEntity: Inscription::class, mappedBy: 'sortie')]
+    #[ORM\OneToMany(targetEntity: Inscription::class, mappedBy: 'sortie', orphanRemoval: true)]
     private Collection $inscriptions;
 
     #[ORM\Column]

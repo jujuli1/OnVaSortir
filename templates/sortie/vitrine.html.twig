@@ -22,6 +22,10 @@
          {% endfor %}
      {% endfor %}
 
+     <a href="{{ path('app_profil') }}">Mon compte</a>
+
+
+
      {%for sortie in sorties%}
      <div class="sortie">
              <a href="{{ path('app_details', { id: sortie.id }) }}">
@@ -34,25 +38,30 @@
                               {% else %}
                                   Fermée
                               {% endif %}</p>
-             {% if not inscrit %}
-                 <form method="post" action="{{ path('app_sortie_inscription', { id: sortie.id }) }}">
-                     <button class="btn btn-success">
-                         Participer
-                     </button>
-                 </form>
-             {% else %}
-                 <p class="text-success">Déja inscrit</p>
-             {% endif %}
 
+               {% if not inscrit %}
+                                         <form method="post" action="{{ path('app_sortie_inscription', { id: sortie.id }) }}">
+                                             <button class="btn btn-success">
+                                                 Participer
+                                             </button>
+                                         </form>
 
-
-
+                                     {% else %}
+                                         <p class="text-success">Déja inscrit</p>
+                                     {% endif %}
 
          </div>
      {% else %}
          <p>Aucune sortie trouvée.</p>
 
      {% endfor %}
+
+
+
+
+
+
+
 
 
 
