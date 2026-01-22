@@ -85,9 +85,7 @@ final class AdminController extends AbstractController
 
 
 
-        // campus par défault
-        $campus = $campusRepository->find(1);
-        $user->setCampus($campus);
+
 
         if($registrationAdminForm->isSubmitted() && $registrationAdminForm->isValid()) {
 
@@ -98,8 +96,18 @@ final class AdminController extends AbstractController
             );
             $user->setPassword($hashedPassword);
 
+
+            // campus par défault
+            $campus = $campusRepository->find(4);
+            $user->setCampus($campus);
+
             // donne le rôle admin
             $user->setRoles(['ROLE_ADMIN']);
+
+            if (!$user->getCampus()) {
+                $campus = $campusRepository->find(4);
+                $user->setCampus($campus);
+            }
 
             // enregistrer le user
             $entityManager->persist($user);

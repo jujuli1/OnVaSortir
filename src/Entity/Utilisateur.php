@@ -13,10 +13,10 @@ use Symfony\Component\Security\Core\User\UserInterface;
 class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
 {
 
-
+//pour docker
     #[ORM\Id]
-    #[ORM\GeneratedValue]
-    #[ORM\Column]
+    #[ORM\GeneratedValue(strategy: "IDENTITY")]
+    #[ORM\Column(type: "integer")]
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
@@ -52,8 +52,15 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @var Collection<int, Inscription>
      */
-    #[ORM\OneToMany(targetEntity: Inscription::class, mappedBy: 'utilisateur')]
-    private Collection $inscription;
+    #[ORM\OneToMany(targetEntity: Inscription::class, mappedBy: 'utilisateur', cascade: ["remove"], orphanRemoval: true)]
+    private Collection $inscriptions {
+        get {
+            return $this->inscriptions;
+        }
+        set(Collection $value) {
+            $this->inscriptions = $value;
+        }
+    }
 
     #[ORM\Column]
     private ?\DateTime $birthday = null;
@@ -64,8 +71,7 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $photo = null;
 
-    #[ORM\OneToMany(mappedBy: 'utilisateur', targetEntity: Inscription::class, orphanRemoval: true)]
-    private Collection $inscriptions;
+
 
     #[ORM\Column(type: "string",length: 64, nullable: true)]
     private ?string $resetToken = null;
@@ -73,15 +79,8 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(type: "datetime", nullable: true)]
     private ?\DateTime $resetTokenExpiresAt = null;
 
-    public function getInscriptions(): Collection
-    {
-        return $this->inscriptions;
-    }
-
-    public function setInscriptions(Collection $inscriptions): void
-    {
-        $this->inscriptions = $inscriptions;
-    }
+    #[ORM\OneToMany(targetEntity: Sortie::class, mappedBy: 'utilisateur', cascade: ["remove"])]
+    private Collection $sorties;
 
     public function getResetToken(): ?string
     {
@@ -103,9 +102,17 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
         $this->resetTokenExpiresAt = $resetTokenExpiresAt;
     }
 
+
+
     public function __construct()
     {
-        $this->inscription = new ArrayCollection();
+        $this->inscriptions = new ArrayCollection();
+        $this->sorties = new ArrayCollection();
+    }
+
+    public function getSorties(): Collection
+    {
+        return $this->sorties;
     }
 
     public function getId(): ?int
@@ -192,13 +199,13 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
      */
     public function getInscription(): Collection
     {
-        return $this->inscription;
+        return $this->inscriptions;
     }
 
     public function addInscription(Inscription $inscription): static
     {
-        if (!$this->inscription->contains($inscription)) {
-            $this->inscription->add($inscription);
+        if (!$this->inscriptions->contains($inscription)) {
+            $this->inscriptions->add($inscription);
             $inscription->setUtilisateur($this);
         }
 
@@ -207,7 +214,7 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function removeInscription(Inscription $inscription): static
     {
-        if ($this->inscription->removeElement($inscription)) {
+        if ($this->inscriptions->removeElement($inscription)) {
             // set the owning side to null (unless already changed)
             if ($inscription->getUtilisateur() === $this) {
                 $inscription->setUtilisateur(null);

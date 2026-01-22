@@ -9,12 +9,12 @@ use Doctrine\ORM\Mapping as ORM;
 class Inscription
 {
     #[ORM\Id]
-    #[ORM\GeneratedValue]
-    #[ORM\Column]
+    #[ORM\GeneratedValue(strategy: "IDENTITY")]
+    #[ORM\Column(type: "integer")]
     private ?int $id = null;
 
-    #[ORM\ManyToOne(inversedBy: 'inscription')]
-    #[ORM\JoinColumn(nullable: false, onDelete: 'CASCADE')]  // <-----
+    #[ORM\ManyToOne(targetEntity: Utilisateur::class, inversedBy: 'inscriptions')]
+    #[ORM\JoinColumn(nullable: false, onDelete: "CASCADE")]
     private ?Utilisateur $utilisateur = null;
 
     #[ORM\ManyToOne(inversedBy: 'inscriptions')]

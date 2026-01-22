@@ -36,6 +36,7 @@ class RegistrationFormType extends AbstractType
             ->add('campus', EntityType::class, [ //relation campus
                 'class' => Campus::class,
                 'choice_label' => 'nom', // nom du campus
+                'required' => true
             ])
             ->add('birthday', BirthdayType::class, [
             'required' => false,
