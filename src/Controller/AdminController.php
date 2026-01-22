@@ -138,10 +138,10 @@ final class AdminController extends AbstractController
 
         $user->setRoles(['ROLE_USER']);
 
-        if ($form->isSubmitted() && $form->isValid()) {
+        if ($form->isSubmitted()) {
 
-            // Récupère UNIQUEMENT ce que le formulaire a envoyé
-            $rolesForm = $form->get('roles')->getData(); // ['ROLE_ADMIN'] ou []
+            // Récupere uniquement ce que le formulaire a envoyer
+            $rolesForm = $form->get('roles')->getData();
 
             // Ajoute ROLE_USER
             $roles = $rolesForm;
