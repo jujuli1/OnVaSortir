@@ -29,6 +29,9 @@
      {%for sortie in sorties%}
      <div class="sortie">
              <a href="{{ path('app_details', { id: sortie.id }) }}">
+                   {% if sortie.photo %}
+                          <img src="{{ asset('uploads/photos/' ~ app.user.photo) }}" width="150">
+                      {% endif %}
                  <h2>{{ sortie.nom }}</h2></a>
              <p>{{ sortie.description }}</p>
              <p>Date : {{ sortie.dateHeure|date('d/m/Y H:i') }}</p>

@@ -15,19 +15,25 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class RegistrationUserAdminType extends AbstractType
 {
+
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
+
         $builder
+
             ->add('nom')
             ->add('prenom')
             ->add('email')
             ->add('motDePasse', RepeatedType::class, [
+
                 'type' => PasswordType::class,
                 'first_options'  => ['label' => 'Mot de passe'],
                 'second_options' => ['label' => 'Confirmer le mot de passe'],
             ])
+
             ->add('roles', ChoiceType::class, [
                 'choices' => [
+
                     'Administrateur' => 'ROLE_ADMIN',
                 ],
                 'multiple' => true,
@@ -35,7 +41,7 @@ class RegistrationUserAdminType extends AbstractType
             ])
             ->add('birthday', BirthdayType::class, [
                 'required' => false,
-                'widget' => 'single_text', // pour un champ date simple
+                'widget' => 'single_text',
             ])
             ->add('telephone')
             ->add('photo')

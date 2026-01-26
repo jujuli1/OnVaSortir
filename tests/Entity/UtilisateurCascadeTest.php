@@ -76,6 +76,10 @@ class UtilisateurCascadeTest extends KernelTestCase
         $entityManager->remove($user);
         $entityManager->flush();
 
+       /* $sortieId = $sortie->getId();
+        $deletedSortie = $entityManager->getRepository(Sortie::class)->find($sortieId);
+        $this->assertNull($deletedSortie, "La sortie n'a pas été supprimée en cascade !");*/
+
         //supp inscription pour test
         $inscriptions = $entityManager->getRepository(Inscription::class)->findBy(['utilisateur' => $userId]);
         $this->assertCount(0, $inscriptions);

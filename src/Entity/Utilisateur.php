@@ -14,7 +14,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
 {
 
-//pour docker
+
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: "IDENTITY")]
     #[ORM\Column(type: "integer")]

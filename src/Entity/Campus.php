@@ -10,13 +10,16 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\Entity(repositoryClass: CampusRepository::class)]
 class Campus
 {
+
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: "IDENTITY")]
     #[ORM\Column(type: "integer")]
     private ?int $id = null;
 
+
     #[ORM\Column(length: 255)]
     private ?string $nom = null;
+
 
     #[ORM\ManyToOne(inversedBy: 'campuses')]
     #[ORM\JoinColumn(nullable: false)]
@@ -25,7 +28,9 @@ class Campus
     /**
      * @var Collection<int, Utilisateur>
      */
+
     #[ORM\OneToMany(targetEntity: Utilisateur::class, mappedBy: 'campus')]
+
     private Collection $utilisateurs;
 
     #[ORM\Column(length: 20)]

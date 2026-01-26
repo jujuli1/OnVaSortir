@@ -27,12 +27,14 @@ final class DetailsController extends AbstractController
             'sortie' => $id,]);
 
         $sorties = $em->getRepository(Sortie::class)->find($id);
+
         //formulaire d'update d'une sortie
         $form = $this->createForm(SortieType::class, $sorties);
         $form->handleRequest($request);
 
 
         if($form->isSubmitted() && $form->isValid()){
+
             //id utilisateur connecté remplit automatiquement le champ utilisateur_id de la table sortie
             $sorties->setUtilisateur($this->getUser());
             $em->persist($sorties);

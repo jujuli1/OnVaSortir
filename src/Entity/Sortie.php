@@ -35,6 +35,9 @@ class Sortie
     #[ORM\Column(type: "string", length: 255)]
     private $organisateur;
 
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    private ?string $photo = null;
+
 
     /**
      * @return mixed
@@ -169,6 +172,18 @@ class Sortie
     public function setStatus(bool $status): static
     {
         $this->status = $status;
+
+        return $this;
+    }
+
+    public function getPhoto(): ?string
+    {
+        return $this->photo;
+    }
+
+    public function setPhoto(?string $photo): self
+    {
+        $this->photo = $photo;
 
         return $this;
     }

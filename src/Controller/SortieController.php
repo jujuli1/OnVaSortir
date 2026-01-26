@@ -10,11 +10,12 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\String\Slugger\SluggerInterface;
 
 final class SortieController extends AbstractController
 {
     #[Route('/sortie', name: 'app_sortie')]
-    public function index(Request $request,EntityManagerInterface $em,): Response
+    public function index(Request $request,EntityManagerInterface $em, SluggerInterface $slugger,): Response
     {
         $sortie = new Sortie();
         //recup user connecté
@@ -32,6 +33,30 @@ final class SortieController extends AbstractController
         $form->handleRequest($request);
 
         if($form->isSubmitted() && $form->isValid()){
+
+            $photoFile = $form->get('photo')->getData();
+
+
+
+
+            if ($photoFile) {
+                //retire extention fichier
+                $originalFilename = pathinfo($photoFile->getClientOriginalName(), PATHINFO_FILENAME);
+
+                $safeFilename = $slugger->slug($originalFilename);
+                //genere id unique
+                $newFilename = $safeFilename.'-'.uniqid().'.'.$photoFile->guessExtension();
+
+                $photoFile->move(
+                // a trouver dans service.yml
+                    $this->getParameter('photos_directory'),
+                    $newFilename
+                );
+
+                $sortie->setPhoto($newFilename);
+
+
+            }
             //id utilisateur connecté remplit automatiquement le champ utilisateur_id de la table sortie
             $sortie->setUtilisateur($this->getUser());
             $em->persist($sortie);

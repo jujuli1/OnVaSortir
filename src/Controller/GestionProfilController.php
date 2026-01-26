@@ -23,18 +23,21 @@ final class GestionProfilController extends AbstractController
         $form = $this->createForm(UtilisateurType::class, $user);
         $form->handleRequest($request);  // //!\\
 
-        if($form->isSubmitted() && $form->isValid()) {
+        if($form->isSubmitted() ) {
 
             $photoFile = $form['photo']->getData();
 
 
             if ($photoFile) {
+                //retire extention fichier
                 $originalFilename = pathinfo($photoFile->getClientOriginalName(), PATHINFO_FILENAME);
 
                 $safeFilename = $slugger->slug($originalFilename);
+                //genere id unique
                 $newFilename = $safeFilename.'-'.uniqid().'.'.$photoFile->guessExtension();
 
                 $photoFile->move(
+                    // a trouver dans service.yml
                     $this->getParameter('photos_directory'),
                     $newFilename
                 );
@@ -50,7 +53,7 @@ final class GestionProfilController extends AbstractController
 
 
         return $this->render('gestion_profil/index.html.twig', [
-            'controller_name' => 'GestionProfilController',
+
             'form' => $form->createView(),
         ]);
     }

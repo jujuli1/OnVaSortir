@@ -28,7 +28,7 @@ final class ProfilController extends AbstractController
     }
 
     #[Route('/profil/desistement/{id}', name: 'app_sortie_desistement')]
-    public function desistement(int $id, Request $request,EntityManagerInterface $em,): Response
+    public function desistement(int $id,EntityManagerInterface $em,): Response
     {
 
         // se desisté d'une sortie

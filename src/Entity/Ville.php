@@ -10,6 +10,7 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\Entity(repositoryClass: VilleRepository::class)]
 class Ville
 {
+
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: "IDENTITY")]
     #[ORM\Column(type: "integer")]
@@ -21,6 +22,7 @@ class Ville
     /**
      * @var Collection<int, Campus>
      */
+
     #[ORM\OneToMany(targetEntity: Campus::class, mappedBy: 'ville')]
     private Collection $campuses;
 

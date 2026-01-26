@@ -15,6 +15,7 @@ use Symfony\Component\Security\Http\Authentication\UserAuthenticatorInterface;
 
 class RegistrationController extends AbstractController
 {
+
     #[Route('/register', name: 'app_register')]
     public function register(
         Request $request,
@@ -26,6 +27,7 @@ class RegistrationController extends AbstractController
     {
         $user = new Utilisateur();
         $form = $this->createForm(RegistrationFormType::class, $user);
+        //demande de traitement de la requête
         $form->handleRequest($request);
 
         if ($form->isSubmitted() ) {

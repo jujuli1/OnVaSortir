@@ -8,8 +8,32 @@
     .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
 </style>
 
-        <a href="{{ path('app_login') }}">Se connecter</a>
-        <a href="{{ path('app_register') }}">s'inscrire</a>
+<div class="container mt-5 home-page-header">
+    <a href="{{ path('app_login') }}">Se connecter</a>
+            <a href="{{ path('app_register') }}">Céer son compte</a>
+    </div>
+
+ {%for sortie in sorties%}
+     <div class="sortie">
+             <a href="{{ path('app_login')}}">
+                 {% if sortie.photo %}
+                                           <img src="{{ asset('uploads/photos/' ~ app.user.photo) }}" width="150">
+                                       {% endif %}
+                 <h2>{{ sortie.nom }}</h2></a>
+             <p>{{ sortie.description }}</p>
+             <p>Date : {{ sortie.dateHeure|date('d/m/Y H:i') }}</p>
+             <p> Organisateur: {{ sortie.organisateur }}</p>
+
+
+
+
+         </div>
+     {% else %}
+         <p>Aucune sortie trouvée.</p>
+
+     {% endfor %}
+
+
 
 
 {% endblock %}

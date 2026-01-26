@@ -41,6 +41,7 @@ class RegisterAdminType extends AbstractType
 
     }
 
+    //liaison a l'entité
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
