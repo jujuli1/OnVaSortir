@@ -19,12 +19,14 @@ final class LoginUserTest extends WebTestCase
 
 
 
+    //test login réussit
     public function testIndex(): void
     {
 
 
         //simule navigateur
         $client = static::createClient();
+        //recup entitymanager depuis conteneur symfony
         $this->entityManager = static::getContainer()->get('doctrine')->getManager();
 
 
@@ -118,6 +120,7 @@ final class LoginUserTest extends WebTestCase
             $entityManager->remove($user);
             $entityManager->flush();
         }
+        //nettoyage conteneurs
         parent::tearDown();
 
     }

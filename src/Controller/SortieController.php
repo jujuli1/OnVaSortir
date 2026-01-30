@@ -134,8 +134,10 @@ final class SortieController extends AbstractController
             $em->flush();
 
             $this->addFlash('success', 'Inscription confirmé !');
+            return $this->redirectToRoute('app_sortie_vitrine');
         } else {
             $this->addFlash('warning', 'Vous êtes déjà inscrit à cette sortie.');
+            return $this->redirectToRoute('app_sortie_vitrine');
         }
 
 

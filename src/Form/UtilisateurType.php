@@ -18,8 +18,8 @@ class UtilisateurType extends AbstractType
         $builder
 
             ->add('photo', FileType::class, [
-                'label' => 'Photo de profil',
-                'mapped' => false, // obligatoire en false , ne correspond pas pas directement au champ bdd, n'apelle aucun setter
+                'label' => false,
+                'mapped' => false, // non lié a l'entité, est géré par le controlleur
                 'required' => false,
                 'constraints' => [
                     new File(

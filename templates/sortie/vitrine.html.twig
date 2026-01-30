@@ -8,11 +8,21 @@
     .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
 </style>
 
-<div class="example-wrapper">
+<div class="container mt-5 home-page-header">
+    <h1 class = "studentstagram">Toutes les sorties proposées par nos apprenants</h1>
+    <div class="linkHeader">
+        <ul>
+            <li><a href="{{ path('app_profil') }}">Mon compte</a></li>
+            <li><a href="{{ path('app_sortie') }}">Créer votre sortie</a></li>
+            <li><a href="{{ path('app_admin_login') }}">Vous etes Admin ?</a></li>
 
-    <h1>sorties</h1>
+            </ul>
+        </div>
 
-     <h1>Vitrine</h1>
+    </div>
+
+<div class= "corp">
+
 
      {% for label, messages in app.flashes %}
          {% for message in messages %}
@@ -22,7 +32,7 @@
          {% endfor %}
      {% endfor %}
 
-     <a href="{{ path('app_profil') }}">Mon compte</a>
+
 
 
 
@@ -30,7 +40,7 @@
      <div class="sortie">
              <a href="{{ path('app_details', { id: sortie.id }) }}">
                    {% if sortie.photo %}
-                          <img src="{{ asset('uploads/photos/' ~ app.user.photo) }}" width="150">
+                          <img src="{{ asset('uploads/photos/' ~ sortie.photo) }}" width="150">
                       {% endif %}
                  <h2>{{ sortie.nom }}</h2></a>
              <p>{{ sortie.description }}</p>
@@ -58,15 +68,6 @@
          <p>Aucune sortie trouvée.</p>
 
      {% endfor %}
-
-
-
-
-
-
-
-
-
 
 
 

@@ -39,7 +39,7 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
     #[Assert\Length(min: 8, max: 50)]
     #[Assert\Regex(
         pattern: "/^(?=.*[A-Z])(?=.*[a-z])(?=.*\d).+$/",
-        message: "Le mot de passe doit contenir au moin une majuscule, une minuscule et un chiffre"
+        message: "le mot de passe doit contenir au moin une majuscule, une minuscule, et un chiffre"
     )]
     private ?string $motDePasse = null;
 

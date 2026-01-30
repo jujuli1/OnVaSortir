@@ -15,13 +15,24 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints as Assert;
 
+use Symfony\Component\Validator\Constraints\Length;
+
 
 class RegistrationFormType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('nom', TextType::class)
+            ->add('nom', TextType::class, [
+                'constraints' => [
+                    new Assert\Length(
+                        min: 2,
+                        max: 255,
+                        minMessage: 'Le nom n est pas assez long'
+                    ),
+                    new Assert\NotBlank(message: 'Le nom ne peut pas être vide ')
+                ],
+            ])
             ->add('prenom', TextType::class)
             ->add('email', EmailType::class,[
                 'constraints' => [
@@ -31,8 +42,26 @@ class RegistrationFormType extends AbstractType
             ])
             ->add('motDePasse', RepeatedType::class, [
                 'type' => PasswordType::class,
-                'first_options'  => ['label' => 'Mot de passe'],
-                'second_options' => ['label' => 'Confirmer le mot de passe'],
+                'first_options'  => [
+                    'label' => 'Mot de passe',
+                    'constraints' => [
+                        new Assert\NotBlank(message: 'mot de passe obligatoire.'),
+                        new Assert\Length(
+                            min: 8,
+                            max: 4096,
+                            minMessage: 'Votre mot de passe n’est pas assez long'
+                        ),
+                        new Assert\Regex(
+                            pattern: '/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{8,}$/',
+                            message: 'Le mot de passe doit contenir au moins 8 caracteres, une majuscule, une minuscule, un chiffre, et un caractere spécial '
+                        ),
+                    ],],
+                'second_options' => [
+                    'label' => 'Confirmer le mot de passe',
+
+                    ],
+
+
 
             ])
             ->add('campus', EntityType::class, [ //relation campus

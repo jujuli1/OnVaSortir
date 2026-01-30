@@ -18,7 +18,7 @@ security:
 
         admin:
             pattern: ^/admin
-            lazy: true
+            lazy: true #active firewall si necessaire
             provider: app_user_provider
             custom_authenticators:
                 - App\Security\AdminLoginFormAuthenticator

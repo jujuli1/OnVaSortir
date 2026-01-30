@@ -9,31 +9,45 @@
 </style>
 
 <div class="container mt-5 home-page-header">
+    <h1 class = "studentstagram">STUDENT STAGRAM !</h1>
     <a href="{{ path('app_login') }}">Se connecter</a>
             <a href="{{ path('app_register') }}">Céer son compte</a>
     </div>
 
- {%for sortie in sorties%}
-     <div class="sortie">
-             <a href="{{ path('app_login')}}">
-                 {% if sortie.photo %}
-                                           <img src="{{ asset('uploads/photos/' ~ app.user.photo) }}" width="150">
-                                       {% endif %}
-                 <h2>{{ sortie.nom }}</h2></a>
-             <p>{{ sortie.description }}</p>
-             <p>Date : {{ sortie.dateHeure|date('d/m/Y H:i') }}</p>
-             <p> Organisateur: {{ sortie.organisateur }}</p>
+<div class= "corp">
+    <div class = "gauche">
+
+        {%for sortie in sorties%}
+             <div class="sortie">
+                     <a href="{{ path('app_login')}}">
+                         {% if sortie.photo %}
+                                                   <img src="{{ asset('uploads/photos/' ~ sortie.photo) }}" width="150">
+                                               {% endif %}
+                         <h2>{{ sortie.nom }}</h2></a>
 
 
 
 
-         </div>
-     {% else %}
-         <p>Aucune sortie trouvée.</p>
 
-     {% endfor %}
+                 </div>
+             {% else %}
+                 <p>Aucune sortie trouvée.</p>
+
+             {% endfor %}
+
+        </div>
+    <div class = "droite">
+        <p class="presentation">Que tu aies envie de proposer une sortie, de découvrir de nouveaux événements ou simplement de rencontrer d’autres étudiants, tout est fait pour te simplifier la vie.
+
+           Consulte les sorties à venir, découvre leur description, leur date et leur lieu, et laisse-toi tenter par des moments de partage en dehors des cours. Tu peux également créer ta propre sortie et inviter les autres étudiants à te rejoindre.
+
+           Simple d’utilisation et pensée pour la vie étudiante, cette plateforme a pour objectif de favoriser les échanges, la convivialité et la création de liens au sein de l’école.
+
+           Alors n’hésite plus : explore, propose et profite des sorties entre étudiants de l’ENI !</p>
+        </div>
 
 
+    </div>
 
 
 {% endblock %}

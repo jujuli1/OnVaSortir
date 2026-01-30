@@ -12,12 +12,13 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\String\Slugger\SluggerInterface;
 
 final class DetailsController extends AbstractController
 {
     //Route de détails d'une aire
     #[Route('/details/{id}', name: 'app_details')]
-    public function index(EntityManagerInterface $em, int $id, Request $request): Response
+    public function index(EntityManagerInterface $em, int $id, Request $request,SluggerInterface $slugger,): Response
     {
 
 
@@ -29,11 +30,46 @@ final class DetailsController extends AbstractController
         $sorties = $em->getRepository(Sortie::class)->find($id);
 
         //formulaire d'update d'une sortie
-        $form = $this->createForm(SortieType::class, $sorties);
+        $form = $this->createForm(UpdateSortieType::class, $sorties);
         $form->handleRequest($request);
 
 
         if($form->isSubmitted() && $form->isValid()){
+
+            $photoFile = $form['photo']->getData();
+
+
+            if ($photoFile) {
+                //retire extention fichier
+                $originalFilename = pathinfo($photoFile->getClientOriginalName(), PATHINFO_FILENAME);
+
+                $safeFilename = $slugger->slug($originalFilename);
+                //genere id unique
+                $newFilename = $safeFilename.'-'.uniqid().'.'.$photoFile->guessExtension();
+
+                $photoFile->move(
+                // a trouver dans service.yml
+                    $this->getParameter('photos_directory'),
+                    $newFilename
+                );
+
+                $sorties->setPhoto($newFilename);
+
+
+
+                //securité
+                if ($this->getUser() !== $sorties->getUtilisateur()) {
+                    throw $this->createAccessDeniedException(
+                        'Vous n etes pas l organisateur '
+                    );
+                }
+
+                $em->flush();
+
+                return $this->redirectToRoute('app_sortie_vitrine');
+
+
+            }
 
             //id utilisateur connecté remplit automatiquement le champ utilisateur_id de la table sortie
             $sorties->setUtilisateur($this->getUser());
@@ -45,11 +81,9 @@ final class DetailsController extends AbstractController
         $formSupp = $this->createForm(DeleteSortieType::class, $sorties);
         $formSupp->handleRequest($request);
 
-        //formulaire de changement de statuts
-        $formUpdate = $this->createForm(UpdateSortieType::class, $sorties);
-        $formUpdate->handleRequest($request);
 
         if($formSupp->isSubmitted() && $formSupp->isValid()){
+
 
             //securité
             if ($this->getUser() !== $sorties->getUtilisateur()) {
@@ -64,20 +98,7 @@ final class DetailsController extends AbstractController
 
         }
 
-        if($formUpdate->isSubmitted() && $formUpdate->isValid()){
 
-            //securité
-            if ($this->getUser() !== $sorties->getUtilisateur()) {
-                throw $this->createAccessDeniedException(
-                    'Vous n etes pas l organisateur '
-                );
-            }
-
-
-            $em->flush();
-            return $this->redirectToRoute('app_sortie_vitrine');
-
-        }
 
 
 
@@ -95,7 +116,7 @@ final class DetailsController extends AbstractController
             'showForm' => $showForm,
             'form' => $form->createView(),
             'formSupp' => $formSupp->createView(),
-            'formUpdate' => $formUpdate->createView(),
+
 
 
         ]);

@@ -27,11 +27,11 @@ class RegistrationController extends AbstractController
     {
         $user = new Utilisateur();
         $form = $this->createForm(RegistrationFormType::class, $user);
-        //demande de traitement de la requête
-        $form->handleRequest($request);
+
+        $form->handleRequest($request); //maj utilisateur
 
         if ($form->isSubmitted() ) {
-            // Hash pass
+            // Hash password
             $hashedPassword = $passwordHasher->hashPassword(
                 $user,
                 $form->get('motDePasse')->getData()

@@ -23,7 +23,7 @@ class SortieType extends AbstractType
             ->add('lieu')
 
             ->add('status', ChoiceType::class, [
-                'label' => 'Statut de la sortie',
+                'label' => 'Statut :',
                 'choices'  => [
                     'Ouvert' => True,
                     'Fermé'  => False,
@@ -32,7 +32,7 @@ class SortieType extends AbstractType
                 'multiple' => false,   // choix unique
             ])
             ->add('photo', FileType::class, [
-                'label' => 'Illustrez votre sortie avec un photo',
+                'label' => 'Illustrez votre sortie avec une photo : ',
                 'mapped' => false,
                 'required' => false,
                 'constraints' => [

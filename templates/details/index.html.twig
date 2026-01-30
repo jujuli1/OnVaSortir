@@ -5,54 +5,61 @@
 {% block body %}
 
 
-<p>Debug du template</p>
+
 
 <div class="example-wrapper">
-    <h1>Détails de la sortie</h1>
+   <div class= "sortiePresentation">
+        <h1>{{ sorties.nom }}</h1>
 
 
-    {{ dump() }}
 
 
 
-    <p>Sortie : {{ sorties.nom }}</p>
+
+            {% if sorties.photo %}
+                               <img class="imgDetail" src="{{ asset('uploads/photos/' ~ sorties.photo) }}" width="150">
+                           {% endif %}
+                           <p>{{ sorties.nom }}</p>
+                           <p> Prévut le :<strong>{{ sorties.dateHeure|date('d/m/Y H:i') }} H</strong></p>
+
+                           <p>{{ sorties.description }}</p>
+                           <p>Lieu : <strong>{{ sorties.lieu }}</strong></p>
+                           <p>Organisateur : <strong>{{ sorties.organisateur }}</strong></p>
+                           <p> Status : {% if sorties.status == 1 %}
+                                                             Ouverte
+                                                         {% else %}
+                                                             Fermée
+                                                         {% endif %}</p>
+       </div>
 
 
+<div class="formOrganisateur">
     {% if showForm %}
-    <p> c'est toi l'organisateur </p>
+    <p><strong>Editer la sortie</strong> </p>
+    <div class="formOrg">
     {{ form_start(form) }}
                 {{ form_row(form.nom) }}
                 {{ form_row(form.description) }}
                 {{ form_row(form.dateHeure) }}
                 {{ form_row(form.lieu) }}
-
                 {{ form_row(form.status) }}
+                {{ form_row(form.photo) }}
+
+
+
 
                 <button class="btn btn-primary">Appliquer les changements</button>
             {{ form_end(form) }}
+</div>
+<div class="btnSupp">
+             {{ form_start(formSupp) }}
+                            <button class="btn btn-primary">Supprimer la sortie</button>
+                        {{ form_end(formSupp) }}
 
-            {{ form_start(formSupp) }}
-                <button class="btn btn-primary">Supprimer</button>
-            {{ form_end(formSupp) }}
-
-
-            {{ form_start(formUpdate) }}
-            {{ form_row(formUpdate.status)}}
-                <button class="btn btn-primary">Valider</button>
-            {{ form_end(formUpdate) }}
-
-
-
-
-
+</div>
     {% endif %}
 
-
-
-
-
-
-
+    </div>
 
 
 </div>

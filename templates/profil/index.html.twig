@@ -10,43 +10,78 @@
 
 <div class="example-wrapper">
 
-    <h1>Mon compte</h1>
+    <div class="lutilisateur">
+        <h1>Bonjour {{user.nom}}</h1>
 
-    <a href="{{ path('app_sortie') }}">créer une sortie</a>
-    <a href="{{ path('app_sortie_vitrine') }}">Acceuil</a>
-    <a href="{{ path('app_gestion_profil') }}">Paramètres</a>
-    <a href="{{ path('app_admin_login') }}">Vous etes Admin ?</a>
-
-
-
-
-
-
-    {% for inscription in inscriptions %}
-        <div class="inscription">
-            <a href="{{ path('app_details', { id: inscription.sortie.id }) }}">
-                        <p>Sortie : {{ inscription.sortie.nom }}</p>
-                    </a>
-            <p>Date : {{ inscription.sortie.dateHeure|date('d/m/Y H:i') }}</p>
-
-            <form method="post" action="{{ path('app_sortie_desistement', {'id': inscription.sortie.id}) }}">
-                <button class="btn btn-danger">Se désinscrire</button>
-            </form>
+            {% if app.user.photo %}
+                    <img src="{{ asset('uploads/photos/' ~ app.user.photo) }}" width="150">
+                {% endif %}
         </div>
-    {% else %}
+
+    <div class="photoProfil">
+
+
+        <h1 class="textPhotoProfil">Envie d'une nouvelle photo de profil ?</h1>
+        <div class="formPhotoProfil">
+            {{ form_start(form, {'attr': {'data-turbo': 'false'}}) }}
+                        {{ form_row(form.photo) }}
+                        <button class="savePhotoProfil" type="submit">Enregistrer</button>
+                    {{ form_end(form) }}
+            </div>
+
+
+    </div>
+
+
+<div class="profilLink">
+        <a href="{{ path('app_sortie') }}">Créez ta propre sortie</a>
         <a href="{{ path('app_sortie_vitrine') }}">Acceuil</a>
-    {% endfor %}
+        <a href="{{ path('app_admin_profil') }}">Vous etes administrateur ?</a>
+    </div>
+
+
+<div class="formCreationSortie" >
+    <h1> Crée ta propre sortie</h1>
+    {{ form_start(formCreateSortie) }}
+                {{ form_row(formCreateSortie.nom) }}
+                {{ form_row(formCreateSortie.description) }}
+                {{ form_row(formCreateSortie.dateHeure) }}
+                {{ form_row(formCreateSortie.lieu) }}
+                {{ form_row(formCreateSortie.photo) }}
+                {{ form_row(formCreateSortie.status) }}
+
+                <button class="btn btn-primary">Créer la sortie</button>
+            {{ form_end(formCreateSortie) }}
+
+    </div>
 
 
 
-    {% if app.user.photo %}
-        <img src="{{ asset('uploads/photos/' ~ app.user.photo) }}" width="150">
-    {% endif %}
 
 
+<div class="mesInscriptions">
+    {% for inscription in inscriptions %}
+            <div class="inscription">
+                <a href="{{ path('app_details', { id: inscription.sortie.id }) }}">
+                            <img src="{{ asset('uploads/photos/' ~ inscription.sortie.photo) }}" width="150">
+                            <p>{{ inscription.sortie.nom }}</p>
+                        </a>
+                <p>Pour le : {{ inscription.sortie.dateHeure|date('d/m/Y H:i') }}</p>
+
+                <form method="post" action="{{ path('app_sortie_desistement', {'id': inscription.sortie.id}) }}">
+                    <button class="desinscription">Se désinscrire</button>
+                </form>
+            </div>
 
 
-
+        {% endfor %}
+    </div>
 
 </div>
+
+<footer class="footer">
+            <p>&copy; 2026 ENI Sorties.</p>
+        </footer>
 {% endblock %}
+
+
