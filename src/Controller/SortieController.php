@@ -2,9 +2,11 @@
 
 namespace App\Controller;
 
-use App\Entity\Inscription;
+
 use App\Entity\Sortie;
 use App\Form\SortieType;
+use App\Services\SortieInterface;
+use App\Services\SortieService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -15,7 +17,13 @@ use Symfony\Component\String\Slugger\SluggerInterface;
 final class SortieController extends AbstractController
 {
     #[Route('/sortie', name: 'app_sortie')]
-    public function index(Request $request,EntityManagerInterface $em, SluggerInterface $slugger,): Response
+    public function publicSortie(EntityManagerInterface $em,Request $request, SluggerInterface $slugger ): Response
+    {
+        return $this->sortie($em,$request, $slugger);
+    }
+
+
+    protected function sortie(EntityManagerInterface $em,Request $request, SluggerInterface $slugger): Response
     {
         $sortie = new Sortie();
         //recup user connecté
@@ -73,72 +81,41 @@ final class SortieController extends AbstractController
     }
 
     #[Route('/sortie/vitrine', name: 'app_sortie_vitrine')]
-    public function vitrine(EntityManagerInterface $em): Response
+    public function publicVitrine(EntityManagerInterface $em, SortieService $service): Response
+    {
+        return $this->vitrine($em, $service);
+    }
+
+
+
+
+    protected function vitrine(EntityManagerInterface $em, SortieService $service): Response
     {
 
-        //affiche les sortie en bdd sur la page /vitrine
-        $sorties = $em->getRepository(Sortie::class)->findAll();
-
-
         $user = $this->getUser();
-        $inscriptions = [];
 
-        //boucle d'affichage
-        foreach ($sorties as $sortie) {
-            $inscription = $em->getRepository(Inscription::class)->findOneBy(
-                ['utilisateur' => $user,
-                    'sortie' => $sortie
-                ]);
-            $inscriptions[$sortie->getId()] = $inscription;
-        }
+        $data = $service->vitrine($em, $user);
 
-        $inscrit = $em->getRepository(Inscription::class)->findOneBy(
-            ['utilisateur' => $user,
-                'sortie' => $sorties
-            ]);
+        return $this->render('sortie/vitrine.html.twig', $data);
 
-
-
-
-        return $this->render('sortie/vitrine.html.twig',[
-            'sorties' => $sorties,
-            'inscriptions' => $inscriptions,
-            'inscrit' => $inscrit,
-
-
-
-        ]);
     }
 
     #[Route('/sortie/inscription/{id}', name: 'app_sortie_inscription')]
-    public function inscription(int $id,EntityManagerInterface $em,): Response
+    public function inscription(int $id,EntityManagerInterface $em, SortieInterface $sortieService): Response
     {
 
         // s'inscrire a une sortie
-        $inscription = new Inscription();
+
         $user = $this->getUser();
         $sortie = $em->getRepository(Sortie::class)->find($id);
-        //recup id user connecté + id sortie
-        $inscriptionExist= $em->getRepository(Inscription::class)->findOneBy([
-            'utilisateur' => $user,
-            'sortie' => $id,]);
 
-        if(!$inscriptionExist){
-            $inscription->setSortie($sortie);
-            $inscription->setUtilisateur($user);
-
-            $inscription->setDateInscription(new \DateTime());
-            $inscription->setStatusInscription(True);
-
-            $em->persist($inscription);
-            $em->flush();
-
-            $this->addFlash('success', 'Inscription confirmé !');
-            return $this->redirectToRoute('app_sortie_vitrine');
+        if ($sortieService->inscription($user, $sortie)) {
+            $this->addFlash('success', 'Inscription confirmée');
         } else {
-            $this->addFlash('warning', 'Vous êtes déjà inscrit à cette sortie.');
-            return $this->redirectToRoute('app_sortie_vitrine');
+            $this->addFlash('warning', 'Déjà inscrit');
         }
+
+        return $this->redirectToRoute('app_sortie_vitrine');
 
 
 

@@ -17,7 +17,13 @@ final class ProfilController extends AbstractController
 {
     //Route profil
     #[Route('/profil', name: 'app_profil')]
-    public function index(EntityManagerInterface $em,Request $request,
+    public function publicIndex(EntityManagerInterface $em,Request $request,
+                                SluggerInterface $slugger,): Response
+    {
+        return $this->index($em,$request,$slugger);
+    }
+
+    protected function index(EntityManagerInterface $em,Request $request,
                           SluggerInterface $slugger,): Response
     {
 

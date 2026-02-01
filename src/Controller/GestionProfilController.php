@@ -13,7 +13,15 @@ use Symfony\Component\HttpFoundation\Request;
 final class GestionProfilController extends AbstractController
 {
     #[Route('/profil/gestion', name: 'app_gestion_profil')]
-    public function index(Request $request,
+    public function publicGestionProfil(Request $request,
+                          SluggerInterface $slugger,
+                          EntityManagerInterface $em): Response
+    {
+        return $this->gestionProfil($request, $slugger, $em);
+    }
+
+
+    protected function gestionProfil(Request $request,
                           SluggerInterface $slugger,
                           EntityManagerInterface $em): Response
     {

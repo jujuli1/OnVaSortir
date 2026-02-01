@@ -26,7 +26,13 @@ final class AdminController extends AbstractController
 {
 
     #[Route('/profil', name: 'app_admin_profil')]
-    public function adminProfil(EntityManagerInterface $em): Response
+    public function publicAdminProfil(EntityManagerInterface $em): Response
+    {
+        return $this->adminProfil($em);
+    }
+
+
+    protected function adminProfil(EntityManagerInterface $em): Response
     {
         //affiche les sortie et users en bdd sur la page /vitrine
         $sorties = $em->getRepository(Sortie::class)->findAll();
@@ -40,7 +46,14 @@ final class AdminController extends AbstractController
 
     // route vers le profil utilisateur depuis le compte admin
     #[Route('/profil/user/{id}', name: 'app_profil_user')]
-    public function profilUser( Utilisateur $user, Request $request, EntityManagerInterface $entityManager, int $id): Response
+    public function publicProfilUser( Utilisateur $user, Request $request, EntityManagerInterface $entityManager): Response
+    {
+        return $this->profilUser($user, $request, $entityManager);
+    }
+
+
+
+    protected function profilUser( Utilisateur $user, Request $request, EntityManagerInterface $entityManager): Response
     {
 
         //formulaire suppression utilisateur
@@ -71,8 +84,19 @@ final class AdminController extends AbstractController
         ]);
     }
 
+
+
     #[Route('/registerAdmin', name: 'app_admin_register')]
-    public function index(Request $request,
+    public function publicRegisterAdmin(Request $request,
+                                        UserPasswordHasherInterface $passwordHasher,
+                                        EntityManagerInterface $entityManager,
+                                        CampusRepository $campusRepository): Response
+    {
+        return $this->registerAdmin($request,$passwordHasher,$entityManager,$campusRepository,);
+    }
+
+
+    public function registerAdmin(Request $request,
                           UserPasswordHasherInterface $passwordHasher,
                           EntityManagerInterface $entityManager,
                           CampusRepository $campusRepository): Response

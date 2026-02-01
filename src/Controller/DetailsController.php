@@ -18,7 +18,13 @@ final class DetailsController extends AbstractController
 {
     //Route de détails d'une aire
     #[Route('/details/{id}', name: 'app_details')]
-    public function index(EntityManagerInterface $em, int $id, Request $request,SluggerInterface $slugger,): Response
+    public function publicDetails(EntityManagerInterface $em, int $id, Request $request,SluggerInterface $slugger,): Response
+    {
+        return $this->details($em, $id, $request,$slugger);
+    }
+
+
+    protected function details(EntityManagerInterface $em, int $id, Request $request,SluggerInterface $slugger,): Response
     {
 
 

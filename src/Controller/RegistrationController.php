@@ -12,12 +12,30 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Authentication\UserAuthenticatorInterface;
+use Symfony\Component\String\Slugger\SluggerInterface;
 
 class RegistrationController extends AbstractController
 {
 
     #[Route('/register', name: 'app_register')]
-    public function register(
+    public function publicRegister(
+        Request $request,
+        SluggerInterface $slugger,
+        UserPasswordHasherInterface $passwordHasher,
+        EntityManagerInterface $em,
+        UserAuthenticatorInterface $userAuthenticator,
+        LoginFormAuthenticator $authenticator
+    ): Response
+    {
+        return $this->register(
+            $request,
+            $passwordHasher,
+            $em,
+            $userAuthenticator,
+            $authenticator
+        );
+    }
+    protected function register(
         Request $request,
         UserPasswordHasherInterface $passwordHasher,
         EntityManagerInterface $entityManager,

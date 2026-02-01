@@ -12,7 +12,13 @@ use Symfony\Component\Routing\Attribute\Route;
 final class HomeController extends AbstractController
 {
     #[Route('/', name: 'app_home')]
-    public function index(EntityManagerInterface $em): Response
+    public function publicHomePage(EntityManagerInterface $em): Response
+    {
+        return $this->HomePage($em);
+    }
+
+
+    public function HomePage(EntityManagerInterface $em): Response
     {
 
         $sorties = $em->getRepository(Sortie::class)->findAll();
