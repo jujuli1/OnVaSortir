@@ -22,7 +22,7 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\Column(length: 255)]
     #[Assert\NotBlank(message: 'Vous devez saisir un nom')] //contrainte
-    #[Assert\length(min: 2, max: 30)]
+    #[Assert\Length(min: 2, max: 30)]
     private ?string $nom = null;
 
     #[ORM\Column(length: 255)]
@@ -74,7 +74,7 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
 
 
 
-    #[ORM\Column(type: "string",length: 64, nullable: true)]
+    #[ORM\Column(type: "text",length: 255, nullable: true)]
     private ?string $resetToken = null;
 
     #[ORM\Column(type: "datetime", nullable: true)]

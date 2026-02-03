@@ -24,7 +24,7 @@ final class ProfilController extends AbstractController
     }
 
     protected function index(EntityManagerInterface $em,Request $request,
-                          SluggerInterface $slugger,): Response
+                          SluggerInterface $slugger): Response
     {
 
         $user = $this->getUser();
@@ -33,7 +33,7 @@ final class ProfilController extends AbstractController
 
 
         $form = $this->createForm(UtilisateurType::class, $user);
-        $form->handleRequest($request);  // //!\\
+        $form->handleRequest($request);
 
 
         //formulaire photo de profil

@@ -18,7 +18,7 @@ final class HomeController extends AbstractController
     }
 
 
-    public function HomePage(EntityManagerInterface $em): Response
+    protected function HomePage(EntityManagerInterface $em): Response
     {
 
         $sorties = $em->getRepository(Sortie::class)->findAll();

@@ -2,6 +2,14 @@ version: "3.8"
 
 services:
 
+    mailhog:
+        image: mailhog/mailhog
+        container_name: mon_projet_mailhog
+        ports:
+            - "1025:1025"
+            - "8025:8025"
+        networks:
+            - mon_reseau
     php:
         build:
             context: .
@@ -12,7 +20,6 @@ services:
             - .:/var/www/html
         networks:
             - mon_reseau
-
     nginx:
         image: nginx:alpine
         container_name: mon_projet_nginx
