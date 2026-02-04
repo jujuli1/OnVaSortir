@@ -33,8 +33,8 @@ test('inscription nouvel utilisateur', async ({ page }) => {
     // clique
     await page.getByRole('button', { name: "S'inscrire" }).click();
 
-    // verifier la redirection vers login / profil / success
-    // Aller sur la page de login
+
+    // aller sur page de login
     await page.goto('http://localhost:8080/login');
 
     // Remplir le formulaire avec l'utilisateur créé via fixture
