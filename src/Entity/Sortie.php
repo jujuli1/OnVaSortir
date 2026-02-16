@@ -38,6 +38,15 @@ class Sortie
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private ?string $photo = null;
 
+    /**
+     * @var Collection<int, Inscription>
+     */
+    #[ORM\OneToMany(targetEntity: Inscription::class, mappedBy: 'sortie', orphanRemoval: true)]
+    private Collection $inscriptions;
+
+    #[ORM\Column]
+    private ?bool $status = True;
+
 
     /**
      * @return mixed
@@ -55,14 +64,7 @@ class Sortie
         $this->organisateur = $organisateur;
     }
 
-    /**
-     * @var Collection<int, Inscription>
-     */
-    #[ORM\OneToMany(targetEntity: Inscription::class, mappedBy: 'sortie', orphanRemoval: true)]
-    private Collection $inscriptions;
 
-    #[ORM\Column]
-    private ?bool $status = True;
 
     public function __construct()
     {

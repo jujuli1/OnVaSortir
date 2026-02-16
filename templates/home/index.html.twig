@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Vien on sort !{% endblock %}
+{% block title %}Sortie entre étudiants {% endblock %}
 
 {% block body %}
 <style>
@@ -24,10 +24,6 @@
                                                    <img src="{{ asset('uploads/photos/' ~ sortie.photo) }}" width="150">
                                                {% endif %}
                          <h2>{{ sortie.nom }}</h2></a>
-
-
-
-
 
                  </div>
              {% else %}

@@ -23,19 +23,6 @@
 
 <div class= "corp">
 
-
-     {% for label, messages in app.flashes %}
-         {% for message in messages %}
-             <div class="alert alert-{{ label }}">
-                 {{ message }}
-             </div>
-         {% endfor %}
-     {% endfor %}
-
-
-
-
-
      {%for sortie in sorties%}
      <div class="sortie">
              <a href="{{ path('app_details', { id: sortie.id }) }}">

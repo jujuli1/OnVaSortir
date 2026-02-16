@@ -11,4 +11,6 @@ interface SortieInterface
     public function inscription(Utilisateur $utilisateur, Sortie $sortie): bool;
 
     public function vitrine(EntityManagerInterface $em, Utilisateur $user): array;
+
+
 }

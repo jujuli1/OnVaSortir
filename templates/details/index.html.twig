@@ -30,23 +30,41 @@
                                                          {% else %}
                                                              Fermée
                                                          {% endif %}</p>
+
+
+                            <p>Lieu : <strong id="lieu">{{ sorties.lieu }}</strong></p>
+
+                            <div id="qrcode">
+                                <p>Scanne moi pour localiser cette sortie</p>
+                                </div>
+
+                            <script src="https://cdn.jsdelivr.net/npm/qrcodejs/qrcode.min.js"></script>
+                            <script>
+                                const lieu = "{{ sorties.lieu|url_encode }}";
+                                const mapsUrl = "https://www.google.com/maps/search/?api=1&query=" + lieu;
+
+                                new QRCode(document.getElementById("qrcode"), {
+                                    text: mapsUrl,
+                                    width: 200,
+                                    height: 200
+                                });
+                            </script>
        </div>
 
 
 <div class="formOrganisateur">
     {% if showForm %}
-    <p><strong>Editer la sortie</strong> </p>
+
     <div class="formOrg">
+
     {{ form_start(form) }}
+    <p><strong>Editer la sortie</strong> </p>
                 {{ form_row(form.nom) }}
                 {{ form_row(form.description) }}
                 {{ form_row(form.dateHeure) }}
                 {{ form_row(form.lieu) }}
                 {{ form_row(form.status) }}
                 {{ form_row(form.photo) }}
-
-
-
 
                 <button class="btn btn-primary">Appliquer les changements</button>
             {{ form_end(form) }}
@@ -60,8 +78,6 @@
     {% endif %}
 
     </div>
-
-
 </div>
 {% endblock %}
 

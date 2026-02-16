@@ -12,6 +12,9 @@ use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
 class UtilisateurCascadeTest extends KernelTestCase
 {
+    // databases = onvasortir_test
+
+
     private $entityManager;
 
     protected function setUp(): void
@@ -26,7 +29,7 @@ class UtilisateurCascadeTest extends KernelTestCase
 
         // création campus pour utilisateur
         $campus = new Campus();
-        $campus->setNom('Campus Test');
+        $campus->setNom('Campus principal');
         $campus->setAdresse('1 Rue Test');
         $ville = new Ville();
         $ville->setNom('Ville Test');
@@ -43,7 +46,7 @@ class UtilisateurCascadeTest extends KernelTestCase
         $user->setMotDePasse('Password1');
         $user->setBirthday(new \DateTime('2000-01-01'));
 
-        $campus = $entityManager->getRepository(Campus::class)->find(1);
+        $campus = $entityManager->getRepository(Campus::class)->find(20);
         $user->setCampus($campus);
 
         $entityManager->persist($user);
@@ -76,11 +79,9 @@ class UtilisateurCascadeTest extends KernelTestCase
         $entityManager->remove($user);
         $entityManager->flush();
 
-       /* $sortieId = $sortie->getId();
-        $deletedSortie = $entityManager->getRepository(Sortie::class)->find($sortieId);
-        $this->assertNull($deletedSortie, "La sortie n'a pas été supprimée en cascade !");*/
 
-        //supp inscription pour test
+
+        //supprime inscription pour test
         $inscriptions = $entityManager->getRepository(Inscription::class)->findBy(['utilisateur' => $userId]);
         $this->assertCount(0, $inscriptions);
     }

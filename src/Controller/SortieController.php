@@ -30,11 +30,7 @@ final class SortieController extends AbstractController
         $user = $this->getUser();
         $sortie->setOrganisateur($user->getNom());
 
-        //fausse sortie de test
-        $fakeSortie = (object) [
-            'id' => 1,
-            'nom' => 'Sortie test',
-        ];
+
 
         //formulaire de création d'une sortie
         $form = $this->createForm(SortieType::class, $sortie);
@@ -65,7 +61,7 @@ final class SortieController extends AbstractController
 
 
             }
-            //id utilisateur connecté remplit automatiquement le champ utilisateur_id de la table sortie
+            //id utilisateur connecte remplit automatiquement le champ utilisateur_id de la table sortie
             $sortie->setUtilisateur($this->getUser());
             $em->persist($sortie);
             $em->flush();
@@ -75,7 +71,6 @@ final class SortieController extends AbstractController
 
         return $this->render('sortie/index.html.twig', [
             'controller_name' => 'SortieController',
-            'fakeSortie' => $fakeSortie,
             'form' => $form->createView(),
         ]);
     }
@@ -89,19 +84,19 @@ final class SortieController extends AbstractController
 
 
 
-    protected function vitrine(EntityManagerInterface $em, SortieService $service): Response
+    protected function vitrine(EntityManagerInterface $em, SortieInterface $si): Response
     {
 
         $user = $this->getUser();
 
-        $data = $service->vitrine($em, $user);
+        $data = $si->vitrine($em, $user);
 
         return $this->render('sortie/vitrine.html.twig', $data);
 
     }
 
     #[Route('/sortie/inscription/{id}', name: 'app_sortie_inscription')]
-    public function inscription(int $id,EntityManagerInterface $em, SortieInterface $sortieService): Response
+    public function inscription(int $id,EntityManagerInterface $em, SortieInterface $si): Response
     {
 
         // s'inscrire a une sortie
@@ -109,7 +104,7 @@ final class SortieController extends AbstractController
         $user = $this->getUser();
         $sortie = $em->getRepository(Sortie::class)->find($id);
 
-        if ($sortieService->inscription($user, $sortie)) {
+        if ($si->inscription($user, $sortie)) {
             $this->addFlash('success', 'Inscription confirmée');
         } else {
             $this->addFlash('warning', 'Déjà inscrit');

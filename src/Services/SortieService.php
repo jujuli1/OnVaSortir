@@ -41,6 +41,8 @@ class SortieService implements SortieInterface
         return true;
     }
 
+
+
     public function vitrine(EntityManagerInterface $em, Utilisateur $user): array
     {
         //affiche les sortie en bdd sur la page /vitrine

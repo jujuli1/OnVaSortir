@@ -1,6 +1,4 @@
-/* ===============================
-   BASE / RESET
-================================ */
+
 
 body {
     background-color: #eef6f3;
@@ -15,9 +13,7 @@ a {
 }
 
 
-/* ===============================
-   HEADER / NAVIGATION
-================================ */
+
 
 .home-page-header {
     text-align: center;
@@ -60,9 +56,6 @@ a {
 }
 
 
-/* ===============================
-   LAYOUT PRINCIPAL
-================================ */
 
 .corp {
     display: flex;
@@ -87,10 +80,6 @@ a {
     box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
 }
 
-
-/* ===============================
-   SORTIES
-================================ */
 
 .sortie {
     background-color: #ffffff;
@@ -120,9 +109,7 @@ a {
 }
 
 
-/* ===============================
-   PROFIL
-================================ */
+
 
 .profilLink {
     position: absolute;
@@ -164,9 +151,7 @@ a {
 }
 
 
-/* ===============================
-   INSCRIPTIONS
-================================ */
+
 
 .mesInscriptions {
     display: grid;
@@ -192,9 +177,6 @@ a {
 }
 
 
-/* ===============================
-   FORMULAIRES (GLOBAL)
-================================ */
 
 form {
     max-width: 620px;
@@ -233,9 +215,7 @@ form button.btn:hover {
 }
 
 
-/* ===============================
-   BOUTONS SPÉCIAUX
-================================ */
+
 
 .btnSupp button {
     background-color: #dc3545;
@@ -263,10 +243,18 @@ form button.btn:hover {
     background-color: #388E3C;
 }
 
+.sortiePresentation{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
 
-/* ===============================
-   RESPONSIVE
-================================ */
+#qrcode{
+    margin-left: 55%;
+    margin-top: -274px;
+}
+
+/*responsive*/
 
 @media (max-width: 900px) {
     .corp {

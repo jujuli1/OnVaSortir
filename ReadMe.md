@@ -39,3 +39,5 @@ npx playwright test --ui
 
 Depuis le conteneur Docker PHP --> lancer le test de supression en cascade
 docker compose exec php php bin/phpunit tests/Entity/UtilisateurCascadeTest.php
+
+

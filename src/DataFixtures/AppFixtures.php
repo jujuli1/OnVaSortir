@@ -35,7 +35,7 @@ class AppFixtures extends Fixture
         $user->setNom('Test');
         $user->setPrenom('Playwright');
         $user->setEmail('test@playwright.fr');
-        $user->setRoles(['ROLE_USER']);
+        $user->setRoles(['ROLE_ADMIN']);
         $user->setBirthday(new \DateTime('now'));
         $user->setCampus($campus);
 
