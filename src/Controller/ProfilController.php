@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Inscription;
 use App\Entity\Sortie;
+use App\Entity\Utilisateur;
 use App\Form\SortieType;
 use App\Form\UtilisateurType;
 use Doctrine\ORM\EntityManagerInterface;
@@ -31,6 +32,7 @@ final class ProfilController extends AbstractController
 
 
         $user = $this->getUser();
+        $uzer = $em->getRepository(Utilisateur::class)->findAll();
         $inscriptions = $em->getRepository(Inscription::class)->findBy(['utilisateur' => $user]);
 
         //formulaire photo de profil
@@ -59,11 +61,11 @@ final class ProfilController extends AbstractController
                     $newFilename
                 );
 
-                //chemin complet pour python
+
                 $uploadedImagePath = $this->getParameter('photos_directory') . '/' . $newFilename;
 
                 $referenceImagePath = $this->getParameter('photos_directory');
-
+                //chemin complet pour python
                 $pythonScript = $this->getParameter('kernel.project_dir') . '/scripts/compareImg.py';
 
                 $process = new Process([
@@ -73,18 +75,16 @@ final class ProfilController extends AbstractController
                     $referenceImagePath
                 ]);
 
-
-
                 $process->run();
 
                 if (!$process->isSuccessful()) {
                     throw new \RuntimeException($process->getErrorOutput());
                 }
 
-                //recup toute les chaine de caractere du fichier .py
+                //recup toute les chaines de caractere du fichier .py
                 $output = $process->getOutput();
 
-                // Affiche ou log le score de comparaison
+
                 dump($output);
 
                 $user->setPhoto($newFilename);
@@ -96,11 +96,15 @@ final class ProfilController extends AbstractController
 
         }
 
-        // resultat comparaison avec le derniere photo
+
+        //sécurité
         $resultatComparaison = [
             'image' => null,
             'score' => null,
         ];
+
+
+
         $lastUpload = $user->getPhoto();
         if ($lastUpload) {
             $resultatComparaison = $this->compareImg(
@@ -151,14 +155,19 @@ final class ProfilController extends AbstractController
 
 
 
+
+
         }
         return $this->render('profil/index.html.twig', [
             'inscriptions' => $inscriptions,
             'user' => $user,
+            'uzer' => $uzer,
             'form' => $form->createView(),
             'formCreateSortie' => $formCreateSortie->createView(),
             'bestImage' => $resultatComparaison['image'],
             'score' => $resultatComparaison['score'],
+
+
         ]);
     }
 
@@ -186,9 +195,8 @@ final class ProfilController extends AbstractController
         $bestImage = null;
         $mseScore = null;
 
-
             foreach ($output as $line) {
-                $line = trim($line); // enlève \r\n ou espaces
+                $line = trim($line);
 
                 if (stripos($line, "BEST_IMAGE:") === 0) {
                     $bestImage = trim(substr($line, strlen("BEST_IMAGE:")));
@@ -200,7 +208,8 @@ final class ProfilController extends AbstractController
 
         return [
             'image'=> $bestImage,
-            'score'=> $mseScore
+            'score'=> $mseScore,
+
         ];
 
 

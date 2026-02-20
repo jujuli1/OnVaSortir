@@ -28,10 +28,11 @@ def mse(img1, img2):
     diff = img1.astype("float") - img2.astype("float")
     return np.mean(diff ** 2)
 
-# Parcours toutes les images du dossier
+
 best_score = None
 best_image = None
 
+# Parcours toutes les images du dossier
 for filename in os.listdir(ref_folder_path):
     ref_path = os.path.join(ref_folder_path, filename)
 
@@ -51,6 +52,9 @@ for filename in os.listdir(ref_folder_path):
     score = mse(user_gray, ref_gray)
 
     print(f"Comparing {filename} -> MSE: {score}",  flush=True);
+
+    # Afficher toutes les correspondance
+    print(f"MATCH:image={filename};score={score}", flush=True)
 
     if best_score is None or score < best_score:
         best_score = score

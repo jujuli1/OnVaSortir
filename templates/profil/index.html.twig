@@ -42,6 +42,28 @@
                 <p>Image similaire à la tienne :</p>
                 <img src="{{ asset('uploads/photos/' ~ bestImage) }}" width="200" class="img-fluid mb-2">
 
+                {% if score == 0.0 %}
+
+                    <p>Utilisateur ayant exactement la même image :</p>
+
+                    {% for user in uzer %}
+                        <div class="mb-3">
+                            <img src="{{ asset('uploads/photos/' ~ user.photo) }}"
+                                 width="200"
+                                 class="img-fluid mb-2">
+
+                            <p>
+                                {{ user.prenom }} {{ user.nom }}
+                            </p>
+                        </div>
+                    {% endfor %}
+
+                {% else %}
+                    <p>Aucun autre utilisateur n’a exactement la même image.</p>
+                {% endif %}
+
+
+
               </div>
               <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
